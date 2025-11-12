@@ -8,4 +8,8 @@ class Basket
   def initialize
     @items = []
   end
+
+  def add(product_code)
+    @items << product_code if PRODUCTS.key?(product_code)
+  end
 end
