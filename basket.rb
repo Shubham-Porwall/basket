@@ -5,8 +5,15 @@ class Basket
     'B01' => { name: 'Blue Widget', price: 7.95 }
   }.freeze
 
-  def initialize
+  DELIVERY_RULES = [
+    { threshold: 50, cost: 4.95 },
+    { threshold: 90, cost: 2.95 },
+    { threshold: Float::INFINITY, cost: 0.00 }
+  ].freeze
+
+  def initialize(delivery_rules = DELIVERY_RULES)
     @items = []
+    @delivery_rules = delivery_rules
   end
 
   def add(product_code)
@@ -17,10 +24,15 @@ class Basket
 
   def total
     subtotal = calculate_subtotal
-    format('$%.2f', subtotal)
+    delivery = calculate_delivery(subtotal)
+    format('$%.2f', subtotal + delivery)
   end
 
   private
+
+  def calculate_delivery(subtotal)
+    @delivery_rules.find { |rule| subtotal < rule[:threshold] }[:cost]
+  end
 
   def calculate_subtotal
     @items.sum { |code| PRODUCTS[code][:price] }
