@@ -10,6 +10,8 @@ class Basket
   end
 
   def add(product_code)
-    @items << product_code if PRODUCTS.key?(product_code)
+    return @items << product_code if PRODUCTS.key?(product_code)
+
+    puts "Unknown product code: '#{product_code}'"
   end
 end
