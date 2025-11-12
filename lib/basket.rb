@@ -22,24 +22,10 @@ class Basket
     subtotal = calculate_subtotal
     discount = calculate_total_discount
     delivery = @delivery_rule.calculate(subtotal - discount)
-    total_price = subtotal - discount + delivery
-    create_summary(subtotal, discount, delivery, total_price)
+    subtotal - discount + delivery
   end
 
   private
-
-  def create_summary(subtotal, discount, delivery, total_price) # rubocop:disable Metrics/AbcSize
-    puts 'Basket Summary'
-    puts '-----------------------------'
-    grouped_items.each do |product, count|
-      puts "#{product.name} (#{product.code}) x#{count} - $#{format('%.2f', product.price * count)}"
-    end
-    puts '-----------------------------'
-    puts "Subtotal:        $#{format('%.2f', subtotal)}"
-    puts "Discount:        -$#{format('%.2f', discount)}"
-    puts "Delivery Charge:  $#{format('%.2f', delivery)}"
-    puts "Total:           $#{format('%.2f', total_price)}"
-  end
 
   def calculate_subtotal
     @items.sum(&:price)
