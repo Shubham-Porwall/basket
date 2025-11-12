@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Offer class to represent different types of offers
 class Offer
   attr_reader :code, :type, :details
 

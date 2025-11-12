@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'product'
 require_relative 'delivery_rule'
 
+# Basket class to manage products, offers, and delivery rules
 class Basket
   def initialize(products, delivery_rules, offers = [])
     @product_catalog = products
@@ -20,21 +23,23 @@ class Basket
     discount = calculate_total_discount
     delivery = @delivery_rule.calculate(subtotal - discount)
     total_price = subtotal - discount + delivery
+    create_summary(subtotal, discount, delivery, total_price)
+  end
 
-    puts "🛒 Basket Summary"
-    puts "-----------------------------"
+  private
+
+  def create_summary(subtotal, discount, delivery, total_price) # rubocop:disable Metrics/AbcSize
+    puts 'Basket Summary'
+    puts '-----------------------------'
     grouped_items.each do |product, count|
       puts "#{product.name} (#{product.code}) x#{count} - $#{format('%.2f', product.price * count)}"
     end
-    puts "-----------------------------"
+    puts '-----------------------------'
     puts "Subtotal:        $#{format('%.2f', subtotal)}"
     puts "Discount:        -$#{format('%.2f', discount)}"
     puts "Delivery Charge:  $#{format('%.2f', delivery)}"
     puts "Total:           $#{format('%.2f', total_price)}"
-    puts "============================="
   end
-
-  private
 
   def calculate_subtotal
     @items.sum(&:price)

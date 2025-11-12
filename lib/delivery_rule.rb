@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# DeliveryRule class to handle delivery cost calculations
 class DeliveryRule
   def initialize(rules = [])
     @rules = rules.sort_by { |r| r[:threshold] }
