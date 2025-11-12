@@ -14,4 +14,15 @@ class Basket
 
     puts "Unknown product code: '#{product_code}'"
   end
+
+  def total
+    subtotal = calculate_subtotal
+    format('$%.2f', subtotal)
+  end
+
+  private
+
+  def calculate_subtotal
+    @items.sum { |code| PRODUCTS[code][:price] }
+  end
 end
