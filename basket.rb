@@ -28,6 +28,24 @@ class Basket
     format('$%.2f', subtotal + delivery)
   end
 
+  def summary
+    subtotal = calculate_subtotal
+    delivery = calculate_delivery(subtotal)
+    total_price = subtotal + delivery
+
+    puts "🛒 Basket Summary"
+    puts "-----------------------------"
+    grouped_items.each do |code, count|
+      product = PRODUCTS[code]
+      puts "#{product[:name]} (#{code}) x#{count} - $#{format('%.2f', product[:price] * count)}"
+    end
+    puts "-----------------------------"
+    puts "Subtotal:       $#{format('%.2f', subtotal)}"
+    puts "Delivery Charge: $#{format('%.2f', delivery)}"
+    puts "Total:          $#{format('%.2f', total_price)}"
+    puts "============================="
+  end
+
   private
 
   def calculate_delivery(subtotal)
@@ -36,5 +54,9 @@ class Basket
 
   def calculate_subtotal
     @items.sum { |code| PRODUCTS[code][:price] }
+  end
+
+  def grouped_items
+    @items.tally
   end
 end
