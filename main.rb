@@ -48,8 +48,7 @@ class Main
   def initialize_delivery_rules
     DeliveryRule.new([
                        { threshold: 50, cost: 4.95 },
-                       { threshold: 90, cost: 2.95 },
-                       { threshold: Float::INFINITY, cost: 0.00 }
+                       { threshold: 90, cost: 2.95 }
                      ])
   end
 end
